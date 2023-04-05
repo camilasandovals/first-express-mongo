@@ -20,6 +20,18 @@ export async function addPlant(req, res) {
 // DELETE
 export async function deletePlant(req, res) {
     const docId = { "_id": new ObjectId(req.params.docIdentifier) };
+
     await coll.deleteOne( docId );
     res.status(201).send({ message: "plant has been deleted"})
+}
+
+// UPDATE
+export async function updatePlant(req, res) {
+    const docId = { "_id": new ObjectId(req.params.docIdentifier)}
+    const updatePlant = req.body;
+    await coll.findOneAndUpdate(
+        {"_id": docId},
+        { $set: { updatePlant}}
+    );
+    res.status(201).send( { message: "plant has been updated"})
 }
